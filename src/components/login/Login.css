@@ -1,0 +1,22 @@
+.page-login{
+    width: 100%;
+    height: 100%;
+    background:#f0f2f5;
+}
+
+.login {        
+    width:400px;
+    padding: 50px 25px;
+    margin:auto;    
+    border:1px #E1E1E1 solid;    
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+@media (max-width:400px){
+    .login{
+        width: 90%;
+    }
+}

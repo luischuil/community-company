@@ -1,8 +1,6 @@
-import { all, fork } from 'redux-saga/effects'
-import * as authUserSagas from './authUserSaga'
+import { fork } from 'redux-saga/effects'
+import { getAuthUserWatcher } from './authUserSaga'
 
 export function* rootSaga() {
-    yield all([
-        ...Object.values(authUserSagas),
-    ]).map(fork)
+    yield fork(getAuthUserWatcher)
 }
