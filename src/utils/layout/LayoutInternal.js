@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
 
 import './LayoutInternal.css'
 
@@ -16,12 +16,7 @@ const LayoutInternal = (props) => {
                     <Menu.Item key="3">nav 3</Menu.Item>
                 </Menu>
             </Header>
-            <Content style={{ padding: '0 50px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
+            <Content style={{ padding: '0 50px' }}>                
                 <div className="site-layout-content">
                     {props.children}
                 </div>
