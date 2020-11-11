@@ -1,9 +1,8 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Layout } from 'antd'
-import { Form, Input, Button } from 'antd';
-import { GET_AUTH_USER_REQUEST } from '../../redux/actions/authUserActions'
+import { Layout, Form, Input, Button } from 'antd'
+import { getAuthUser } from '../../redux/actions/authUserActions'
 
 import './Login.css'
 
@@ -13,11 +12,8 @@ const Login = () => {
     const isAuthenticated = useSelector(state => state.authUserReducer.isAuthenticated)
 
     const onFinish = values => {
-        dispatch({
-            type: GET_AUTH_USER_REQUEST,
-            payload: values.user_id
-        })
-    };
+        dispatch(getAuthUser(values.user_id))
+    }
 
     if (isAuthenticated) {
         return (<Redirect to="/posts" />)

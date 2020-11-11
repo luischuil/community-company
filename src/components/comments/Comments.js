@@ -1,47 +1,21 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { List, Avatar, Space } from 'antd';
+import React from 'react'
+import { List, Comment } from 'antd'
 
-import LayoutInternal from '../../utils/layout/LayoutInternal'
-import { LOGOUT_USER } from '../../redux/actions/authUserActions'
-import { GET_POSTS_REQUEST } from '../../redux/actions/postActions'
+const Comments = (props) => {
 
-import { MessageOutlined, LikeOutlined } from '@ant-design/icons'
-import { Comment, Tooltip } from 'antd';
-
-import { Button } from 'antd';
-
-
-const Comments = () => {
-    /*
-    const dispatch = useDispatch()
-    const posts = useSelector(state => state.postReducer.list)
-       
-
-    useEffect(() => {
-        dispatch({ type: GET_POSTS_REQUEST })
-    }, [])
-    */
+    const { comments } = props
 
     return (
-        <Comment
-            author={<a>Han Solo</a>}
-            avatar={
-                <Avatar
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    alt="Han Solo"
-                />
-            }
-            content={
-                <p>
-                    We supply a series of design principles, practical patterns and high quality design
-                    resources (Sketch and Axure), to help people create their product prototypes beautifully
-                    and efficiently.
-                </p>
-            }
-            datetime={
-                <span>2017-05-16</span>
-            }
+        <List
+            dataSource={comments}
+            header={`${comments.length} ${comments.length > 1 ? 'repuestas' : 'respuesta'}`}
+            itemLayout="horizontal"
+            renderItem={props => <Comment
+                author={props.user.name}
+                avatar={props.user.avatar}
+                content={props.comment}
+                datetime={props.date}
+            />}
         />
     )
 }

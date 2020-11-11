@@ -1,10 +1,11 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
+import { getAuthUser } from '../../utils/api/authUserServices'
 import {
     GET_AUTH_USER_REQUEST,
     GET_AUTH_USER_SUCCESS,
     GET_AUTH_USER_ERROR
 } from '../actions/authUserActions'
-import { getAuthUser } from '../../utils/api/userServices'
+
 
 export function* getAuthUserWatcher() {
     yield takeLatest(GET_AUTH_USER_REQUEST, getAuthUserFlow)

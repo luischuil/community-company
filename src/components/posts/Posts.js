@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom"
-import { List, Avatar, Space } from 'antd'
+import { List, Avatar, Space, Button } from 'antd'
 import LayoutInternal from '../../utils/layout/LayoutInternal'
 import { LOGOUT_USER } from '../../redux/actions/authUserActions'
-import { GET_POSTS_REQUEST } from '../../redux/actions/postActions'
+import { getPosts } from '../../redux/actions/postActions'
 
 import { MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons'
 
-
-import { Button } from 'antd';
 
 const IconText = ({ icon, text }) => (
     <Space>
         {React.createElement(icon)}
         {text}
     </Space>
-);
+)
 
 const Post = () => {
     const dispatch = useDispatch()
@@ -27,7 +25,7 @@ const Post = () => {
     }
 
     useEffect(() => {
-        dispatch({ type: GET_POSTS_REQUEST })
+        dispatch(getPosts())
     }, [])
 
     return (
@@ -46,11 +44,6 @@ const Post = () => {
                     pageSize: 10,
                 }}
                 dataSource={posts}
-                footer={
-                    <div>
-                        <b>ant design</b> footer part
-                    </div>
-                }
                 renderItem={item => (
                     <List.Item
                         key={item.title}

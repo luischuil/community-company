@@ -2,6 +2,7 @@ import {
     GET_AUTH_USER_REQUEST,
     GET_AUTH_USER_SUCCESS,
     GET_AUTH_USER_ERROR,
+
     LOGOUT_USER,
 } from '../actions/authUserActions'
 

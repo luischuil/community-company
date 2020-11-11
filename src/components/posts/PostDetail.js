@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react'
-import { PageHeader } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Space } from 'antd';
+import { useParams } from "react-router-dom"
+import { PageHeader, Avatar, Space, Tag, Typography, Row } from 'antd';
+import { MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons'
 
 import LayoutInternal from '../../utils/layout/LayoutInternal'
+import { getPostDetail } from '../../redux/actions/postActions'
+import { getComments } from '../../redux/actions/commentActions'
 import Comments from '../comments/Comments'
-import { LOGOUT_USER } from '../../redux/actions/authUserActions'
-import { GET_POSTS_REQUEST } from '../../redux/actions/postActions'
-
-import { MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Tag, Typography, Row } from 'antd'
-
-import { useParams } from "react-router-dom"
 
 import './PostDetail.css'
 
@@ -22,25 +18,7 @@ const IconText = ({ icon, text }) => (
         {React.createElement(icon)}
         {text}
     </Space>
-);
-
-const content = (
-    <>
-        <Paragraph>
-            Ant Design interprets the color system into two levels: a system-level color system and a
-            product-level color system.
-        </Paragraph>
-
-        <div>
-            <IconText icon={LikeOutlined} text="25" key="list-vertical-like-o" />
-
-            <IconText icon={MessageOutlined} text="11" key="list-vertical-message" />
-
-            <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />
-
-        </div>
-    </>
-);
+)
 
 const Content = ({ children, extraContent }) => {
     return (
@@ -48,48 +26,58 @@ const Content = ({ children, extraContent }) => {
             <div style={{ flex: 1 }}>{children}</div>
             <div className="image">{extraContent}</div>
         </Row>
-    );
-};
-
+    )
+}
 
 const PostDetail = () => {
-    //const dispatch = useDispatch()
-    //const posts = useSelector(state => state.postReducer.list)
+    const { postId } = useParams()
+    const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     dispatch({ type: GET_POSTS_REQUEST })
-    // }, [])
+    const post = useSelector(state => state.postReducer.detail)
+    const comments = useSelector(state => state.commentReducer.list)
 
-    let { postId } = useParams(); // <==== Leer ID URL
+    useEffect(() => {
+        dispatch(getPostDetail(postId))
+        dispatch(getComments(postId))
+    }, [])
 
     return (
         <LayoutInternal>
 
             <PageHeader
-                title="Title"
+                title={post.title}
                 className="site-page-header"
-                subTitle="2020-11-03"
+                subTitle={post.date}
                 extra={[
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />,
-                    <Tag color="blue">Luis Chuil</Tag>
+                    <Avatar src={post.user.avatar} />,
+                    <Tag>{post.user.name}</Tag>
                 ]}
                 onBack={() => window.history.back()}
             >
                 <Content
                     extraContent={
                         <img
-                            src="https://gw.alipayobjects.com/zos/antfincdn/K%24NnlsB%26hz/pageHeader.svg"
-                            alt="content"
-                            width="100%"
+                            src={post.image}
+                            alt={post.title}
+                            width="350px"
                         />
                     }
                 >
-                    {content}
+                    <Paragraph>{post.description}</Paragraph>
+
+                    <div>
+                        <IconText icon={LikeOutlined} text={post.likes} key="list-vertical-like-o" />
+
+                        <IconText icon={MessageOutlined} text={post.comments} key="list-vertical-message" />
+
+                        <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />
+                    </div>
+
                 </Content>
             </PageHeader>
-            
+
             <h3>Comentarios</h3>
-            <Comments />
+            <Comments comments={comments} />
 
         </LayoutInternal>
     )
