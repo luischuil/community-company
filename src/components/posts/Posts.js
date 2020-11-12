@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom"
-import { List, Avatar, Space, Button } from 'antd'
+import { List, Avatar, Space } from 'antd'
 import LayoutInternal from '../../utils/layout/LayoutInternal'
-import { LOGOUT_USER } from '../../redux/actions/authUserActions'
 import { getPosts } from '../../redux/actions/postActions'
 
-import { MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons'
+import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
 
 
 const IconText = ({ icon, text }) => (
@@ -19,10 +18,7 @@ const IconText = ({ icon, text }) => (
 const Post = () => {
     const dispatch = useDispatch()
     const posts = useSelector(state => state.postReducer.list)
-
-    const closeSesion = () => {
-        dispatch({ type: LOGOUT_USER })
-    }
+    const authUserId = useSelector(state => state.authUserReducer.id)
 
     useEffect(() => {
         dispatch(getPosts())
@@ -30,10 +26,6 @@ const Post = () => {
 
     return (
         <LayoutInternal>
-            <div>
-                <Button onClick={() => { closeSesion() }}>Cerrar sesión</Button>
-            </div>
-
             <List
                 itemLayout="vertical"
                 size="large"
@@ -44,14 +36,21 @@ const Post = () => {
                     pageSize: 10,
                 }}
                 dataSource={posts}
-                renderItem={item => (
+                renderItem={item => {
+                    
+                    let actions= [
+                        <IconText icon={LikeOutlined} text={item.likes} key="list-vertical-like-o" />,
+                        <IconText icon={MessageOutlined} text={item.comments} key="list-vertical-message" />,                        
+                    ]
+
+                    if(authUserId === item.userId){
+                        actions.push(<IconText icon={StarOutlined} text="" key="list-vertical-delete" />)
+                    }                    
+
+                    return (
                     <List.Item
-                        key={item.title}
-                        actions={[
-                            <IconText icon={LikeOutlined} text={item.likes} key="list-vertical-like-o" />,
-                            <IconText icon={MessageOutlined} text={item.comments} key="list-vertical-message" />,
-                            <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />,
-                        ]}
+                        key={item.id}
+                        actions={actions}
                         extra={
                             <img
                                 width={272}
@@ -67,7 +66,7 @@ const Post = () => {
                         />
                         {item.summary}
                     </List.Item>
-                )}
+                )}}
             />
         </LayoutInternal>
     )

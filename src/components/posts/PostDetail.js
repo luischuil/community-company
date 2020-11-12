@@ -35,6 +35,7 @@ const PostDetail = () => {
 
     const post = useSelector(state => state.postReducer.detail)
     const comments = useSelector(state => state.commentReducer.list)
+    const authUserId = useSelector(state => state.authUserReducer.id)
 
     useEffect(() => {
         dispatch(getPostDetail(postId))
@@ -59,7 +60,7 @@ const PostDetail = () => {
                         <img
                             src={post.image}
                             alt={post.title}
-                            width="350px"
+                            width="100%"
                         />
                     }
                 >
@@ -70,14 +71,14 @@ const PostDetail = () => {
 
                         <IconText icon={MessageOutlined} text={post.comments} key="list-vertical-message" />
 
-                        <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />
+                        {authUserId === post.userId && <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />}
                     </div>
 
                 </Content>
             </PageHeader>
 
             <h3>Comentarios</h3>
-            <Comments comments={comments} />
+            <Comments comments={comments} postId={postId} authUserId={authUserId} />
 
         </LayoutInternal>
     )
