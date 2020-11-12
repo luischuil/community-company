@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom"
 import { PageHeader, Avatar, Space, Tag, Typography, Row } from 'antd';
-import { MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons'
+import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
 
 import LayoutInternal from '../../utils/layout/LayoutInternal'
 import { getPostDetail } from '../../redux/actions/postActions'
@@ -71,7 +71,7 @@ const PostDetail = () => {
 
                         <IconText icon={MessageOutlined} text={post.comments} key="list-vertical-message" />
 
-                        {authUserId === post.userId && <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />}
+                        {authUserId === post.userId && <IconText icon={StarOutlined} text="" key="list-vertical-delete" />}
                     </div>
 
                 </Content>

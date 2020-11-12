@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { List, Comment, Form, Input, Button } from 'antd'
+import { List, Comment, Form, Input, Button, Popconfirm } from 'antd'
 
-import { postComment } from '../../redux/actions/commentActions'
+import { postComment, deleteSingleComment } from '../../redux/actions/commentActions'
 
-const { TextArea } = Input;
+const { TextArea } = Input
 
 const Comments = (props) => {
 
@@ -38,7 +38,14 @@ const Comments = (props) => {
                 header={`${comments.length} ${comments.length > 1 ? 'repuestas' : 'respuesta'}`}
                 itemLayout="horizontal"
                 renderItem={props => <Comment
-                    actions={(authUserId==props.userId)?[<span onClick={ () => {console.log(props.id)}}>Eliminar</span>]:[]}
+                    actions={(authUserId == props.userId) ? [<Popconfirm
+                        title="¿Eliminar comentario?"
+                        okText="Si"
+                        cancelText="No"
+                        onConfirm={() => { dispatch(deleteSingleComment(props.id)) }}
+                    >
+                        <span>Eliminar</span>
+                    </Popconfirm>] : []}
                     key={props.id}
                     author={props.user.name}
                     avatar={props.user.avatar}

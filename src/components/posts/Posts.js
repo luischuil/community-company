@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom"
-import { List, Avatar, Space } from 'antd'
+import { List, Avatar, Space, Popconfirm } from 'antd'
 import LayoutInternal from '../../utils/layout/LayoutInternal'
-import { getPosts } from '../../redux/actions/postActions'
+import { getPosts, deletePost } from '../../redux/actions/postActions'
 
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
+import { MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons'
 
 
 const IconText = ({ icon, text }) => (
@@ -37,36 +37,48 @@ const Post = () => {
                 }}
                 dataSource={posts}
                 renderItem={item => {
-                    
-                    let actions= [
+
+                    let actions = [
                         <IconText icon={LikeOutlined} text={item.likes} key="list-vertical-like-o" />,
-                        <IconText icon={MessageOutlined} text={item.comments} key="list-vertical-message" />,                        
+                        <IconText icon={MessageOutlined} text={item.comments} key="list-vertical-message" />,
                     ]
 
-                    if(authUserId === item.userId){
-                        actions.push(<IconText icon={StarOutlined} text="" key="list-vertical-delete" />)
-                    }                    
+                    if (authUserId === item.userId) {
+                        actions.push(<Popconfirm
+                            title="¿Eliminar post?"
+                            okText="Si"
+                            cancelText="No"
+                            onConfirm={() => {
+                                dispatch(deletePost(item.id))
+                            }}
+                        >
+                            <span>
+                                <IconText icon={DeleteOutlined} text="" key="list-vertical-delete" />
+                            </span>
+                        </Popconfirm>)
+                    }
 
                     return (
-                    <List.Item
-                        key={item.id}
-                        actions={actions}
-                        extra={
-                            <img
-                                width={272}
-                                alt="logo"
-                                src={item.image}
+                        <List.Item
+                            key={item.id}
+                            actions={actions}
+                            extra={
+                                <img
+                                    width={272}
+                                    alt="logo"
+                                    src={item.image}
+                                />
+                            }
+                        >
+                            <List.Item.Meta
+                                avatar={<Avatar src={item.user.avatar} />}
+                                title={<Link to={`/posts/${item.id}`}>{item.title}</Link>}
+                                description={item.date}
                             />
-                        }
-                    >
-                        <List.Item.Meta
-                            avatar={<Avatar src={item.user.avatar} />}
-                            title={<Link to={`/posts/${item.id}`}>{item.title}</Link>}
-                            description={item.date}
-                        />
-                        {item.summary}
-                    </List.Item>
-                )}}
+                            {item.summary}
+                        </List.Item>
+                    )
+                }}
             />
         </LayoutInternal>
     )
