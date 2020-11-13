@@ -1,9 +1,12 @@
 import { fork } from 'redux-saga/effects'
-import { getAuthUserWatcher, } from './authUserSaga'
-import { 
-    getPostsWatcher, 
-    getPostDetailWatcher, 
-    deletePostWatcher, 
+import {
+    getAuthUserWatcher,
+    editUserProfileWatcher
+} from './authUserSaga'
+import {
+    getPostsWatcher,
+    getPostDetailWatcher,
+    deletePostWatcher,
     deletePostSuccessWatcher
 } from './postSaga'
 import {
@@ -16,6 +19,7 @@ import {
 
 export function* rootSaga() {
     yield fork(getAuthUserWatcher)
+    yield fork(editUserProfileWatcher)
     yield fork(getPostsWatcher)
     yield fork(getPostDetailWatcher)
     yield fork(deletePostWatcher)

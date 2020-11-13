@@ -3,6 +3,10 @@ import {
     GET_AUTH_USER_SUCCESS,
     GET_AUTH_USER_ERROR,
 
+    UPDATE_USER_PROFILE_REQUEST,
+    UPDATE_USER__PROFILE_SUCCESS,
+    UPDATE_USER_PROFILE_ERROR,
+
     LOGOUT_USER,
 } from '../actions/authUserActions'
 
@@ -30,6 +34,21 @@ export const authUserReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+
+        case UPDATE_USER_PROFILE_REQUEST:
+            return {
+                ...state
+            }
+        case UPDATE_USER__PROFILE_SUCCESS:            
+            return {
+                ...state,
+                ...action.payload
+            }
+        case UPDATE_USER_PROFILE_ERROR:
+            return {
+                ...state
+            }
+
         case LOGOUT_USER:
             return {
                 ...initialState
