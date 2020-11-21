@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from "react-router-dom"
+import React from 'react'
 import { PageHeader, Avatar, Space, Tag, Typography, Row } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
-
-import LayoutInternal from '../../utils/layout/LayoutInternal'
-import { getPostDetail } from '../../redux/actions/postActions'
-import { getComments } from '../../redux/actions/commentActions'
 import Comments from '../comments/Comments'
 
-import './PostDetail.css'
 
 const { Paragraph } = Typography;
 
@@ -29,22 +22,21 @@ const Content = ({ children, extraContent }) => {
     )
 }
 
-const PostDetail = () => {
-    const { postId } = useParams()
-    const dispatch = useDispatch()
+const PostDetail = (props) => {
 
-    const post = useSelector(state => state.postReducer.detail)
-    const comments = useSelector(state => state.commentReducer.list)
-    const authUserId = useSelector(state => state.authUserReducer.id)
-
-    useEffect(() => {
-        dispatch(getPostDetail(postId))
-        dispatch(getComments(postId))
-    }, [])
+    const {
+        postId,
+        post,
+        comments,
+        authUserId,
+        authUserComment,
+        onAddComment,
+        onChangeComment,
+        onDeleteSingleComment
+    } = props
 
     return (
-        <LayoutInternal>
-
+        <>
             <PageHeader
                 title={post.title}
                 className="site-page-header"
@@ -78,9 +70,16 @@ const PostDetail = () => {
             </PageHeader>
 
             <h3>Comentarios</h3>
-            <Comments comments={comments} postId={postId} authUserId={authUserId} />
-
-        </LayoutInternal>
+            <Comments 
+                comments={comments} 
+                postId={postId} 
+                authUserId={authUserId} 
+                authUserComment={authUserComment}
+                addComment={onAddComment}
+                changeComment={onChangeComment}
+                deleteSingleComment={onDeleteSingleComment}
+            />
+        </>
     )
 }
 

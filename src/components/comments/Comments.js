@@ -1,35 +1,19 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import { List, Comment, Form, Input, Button, Popconfirm } from 'antd'
-
-import { postComment, deleteSingleComment } from '../../redux/actions/commentActions'
 
 const { TextArea } = Input
 
 const Comments = (props) => {
 
-    const { comments, postId, authUserId } = props
-
-    const [authUserComment, setAuthUserComment] = useState('')
-
-    const dispatch = useDispatch()
-
-    const handleClick = () => {
-
-        dispatch(postComment(
-            {
-                'date': '2020-06-28T00:05:55.367Z',
-                'comment': authUserComment,
-                'postId': parseInt(postId),
-                'userId': authUserId
-            }
-        ))
-        setAuthUserComment('')
-    }
-
-    const handleChange = e => {
-        setAuthUserComment(e.target.value)
-    };
+    const { 
+        comments, 
+        postId, 
+        authUserId,
+        authUserComment,
+        addComment,
+        changeComment,
+        deleteSingleComment
+     } = props
 
     return (
         <>
@@ -42,7 +26,7 @@ const Comments = (props) => {
                         title="¿Eliminar comentario?"
                         okText="Si"
                         cancelText="No"
-                        onConfirm={() => { dispatch(deleteSingleComment(props.id)) }}
+                        onConfirm={() => { deleteSingleComment(props.id) }}
                     >
                         <span>Eliminar</span>
                     </Popconfirm>] : []}
@@ -55,10 +39,17 @@ const Comments = (props) => {
             />
 
             <Form.Item>
-                <TextArea rows={4} value={authUserComment} onChange={handleChange} />
+                <TextArea rows={4} value={authUserComment} onChange={changeComment} />
             </Form.Item>
             <Form.Item>
-                <Button htmlType="submit" type="primary" onClick={handleClick}>
+                <Button htmlType="submit" type="primary" onClick={ () => {
+                    addComment({
+                        'date': '2020-06-28T00:05:55.367Z',
+                        'comment': authUserComment,
+                        'postId': parseInt(postId),
+                        'userId': authUserId
+                    })
+                }}>
                     Agregar comentario
                 </Button>
             </Form.Item>

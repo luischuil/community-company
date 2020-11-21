@@ -6,11 +6,11 @@ import {
 } from "react-router-dom";
 
 import { persistor } from './redux/storeConfig/store'
-import Login from './components/login/Login'
-import Posts from './components/posts/Posts'
-import PostDetail from './components/posts/PostDetail'
-import EditProfile from './components/profile/EditProfile'
-import { ProtectedRoute } from './utils/protected-route/ProtectedRoute';
+import LoginContainer from './containers/login/LoginContainer'
+import PostsContainer from './containers/posts/PostsContainer'
+import PostDetailContainer from './containers/posts/PostDetailContainer'
+import EditProfileContainer from './containers/profile/EditProfileContainer'
+import { ProtectedRoute } from './utils/protected-route/ProtectedRoute'
 
 import 'antd/dist/antd.css';
 
@@ -20,10 +20,10 @@ const App = () => {
     <PersistGate loading={null} persistor={persistor}>
       <Router>
         <Switch>
-          <ProtectedRoute path="/profile" component={EditProfile} />
-          <ProtectedRoute path="/posts/:postId" component={PostDetail} />
-          <ProtectedRoute path="/posts" component={Posts} />
-          <Route path="/" component={Login} />
+          <ProtectedRoute path="/profile" component={EditProfileContainer} />
+          <ProtectedRoute path="/posts/:postId" component={PostDetailContainer} />
+          <ProtectedRoute path="/posts" component={PostsContainer} />
+          <Route path="/" component={LoginContainer} />
         </Switch>
       </Router>
     </PersistGate>

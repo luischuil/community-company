@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Layout, Form, Input, Button } from 'antd'
 import { getAuthUser } from '../../redux/actions/authUserActions'
 
-import './Login.css'
+import './LoginContainer.css'
 
-const Login = () => {
+const LoginContainer = () => {
     const { Content } = Layout;
     const dispatch = useDispatch()
     const isAuthenticated = useSelector(state => state.authUserReducer.isAuthenticated)
@@ -49,4 +49,4 @@ const Login = () => {
 
 }
 
-export default Login
+export default LoginContainer
